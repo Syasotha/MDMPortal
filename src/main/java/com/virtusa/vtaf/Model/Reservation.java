@@ -1,6 +1,5 @@
 package com.virtusa.vtaf.Model;
 
-import java.time.LocalTime;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Entity;
@@ -22,7 +21,33 @@ public class Reservation {
 	private String reservationMadeBy;
 	private String reservationMadeFor;
 	private ZonedDateTime createTime;
-	private LocalTime endTime;
+	private ZonedDateTime startTime;
+
+	public ZonedDateTime getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(ZonedDateTime startTime) {
+		this.startTime = startTime;
+	}
+
+	private ZonedDateTime endTime;
+
+	public ZonedDateTime getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(ZonedDateTime createTime) {
+		this.createTime = createTime;
+	}
+
+	public ZonedDateTime getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(ZonedDateTime endTime) {
+		this.endTime = endTime;
+	}
 
 	public Integer getDeviceId() {
 		return deviceId;
@@ -70,22 +95,6 @@ public class Reservation {
 
 	public void setReservationMadeFor(String reservationMadeFor) {
 		this.reservationMadeFor = reservationMadeFor;
-	}
-
-	public ZonedDateTime getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(ZonedDateTime createTime) {
-		this.createTime = createTime;
-	}
-
-	public LocalTime getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(LocalTime endTime) {
-		this.endTime = endTime;
 	}
 
 }

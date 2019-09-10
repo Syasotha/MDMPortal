@@ -10,5 +10,9 @@ public class UserNotFoundException extends RuntimeException {
 	public UserNotFoundException() {
 		super("User does not exist");
 	}
+	
+	public UserNotFoundException(String string) {
+		// TODO Auto-generated constructor stub
+	}
 
 }

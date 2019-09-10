@@ -1,6 +1,6 @@
 package com.virtusa.vtaf.Controller;
 
-import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -34,44 +34,32 @@ public class ReservationController {
 
 		boolean res = reservationService.addReservation(reservation);
 		if (res) {
+
 			return HttpStatus.ACCEPTED;
 		}
 
 		return HttpStatus.BAD_REQUEST;
 	}
 
-	@PostMapping("/reservation1")
-	public boolean addReservations1(@Valid @RequestBody Reservation reservation, @PathVariable Integer reservationId) {
-
-		Integer deviceId = reservationService.getReservationById(reservationId).getDeviceId();
-		LocalTime endTime = reservationService.getReservationById(reservationId).getEndTime();
-
-		LocalTime time = LocalTime.now();
-
-		if (time.equals(endTime)) {
-			return reservationService.addReservation(reservation);
+	@PostMapping("/newreservation")
+	public boolean getEndTimebyDevice(@Valid @RequestBody Reservation reservation) {
+		List<Reservation> reservations = reservationService.getReservationByDevice(reservation.getDeviceId(),reservation.getStartTime(),reservation.getEndTime());
+		if (reservations.isEmpty()) {
+			return false;
 		}
-		return false;
+
+		return reservationService.addReservation(reservation);
 
 	}
 
-	// @SuppressWarnings("unlikely-arg-type")
-	// @RequestMapping(value = "/reservation/{id}", method = RequestMethod.GET)
 	@GetMapping("/reservation/{id}")
-	public List<Reservation> getReservationbyUser(@PathVariable Integer id ) {
-		return null;
-		
-		
+	public List<Reservation> getReservationbyUser(@PathVariable Integer id) {
+		List<Reservation> reservation = resDao.getReservationbyUser(id);
 
-		/*List<Reservation> resByUser = reservationService.getReservationbyUser(user_id);
-		if ((resByUser.get(user_id)).equals(id)) {
-			return resByUser;
-		} else {
-			throw new UserNotFoundException();
-		}*/
+		if (reservation.isEmpty())
+			throw new UserNotFoundException("id-" + id);
 
-		// return resDao.getReservationbyUser(user_id).orElseThrow(() -> new
-		// UserNotFoundException(user_id));
+		return reservationService.getReservationByUser(id);
 
 	}
 
@@ -83,4 +71,13 @@ public class ReservationController {
 		return response;
 
 	}
+
+	@GetMapping("/reservations/{id}/startDateTime/enDateTime")
+	public List<Reservation> getReservationbyDeviceId(@PathVariable Integer device_id, ZonedDateTime startDateTime,
+			ZonedDateTime enDateTime) {
+		List<Reservation> reservation = reservationService.getReservationByDevice(device_id, startDateTime, enDateTime);
+		return reservation;
+
+	}
+
 }
