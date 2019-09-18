@@ -1,9 +1,6 @@
 package com.virtusa.vtaf.Controller;
 
-import java.time.ZonedDateTime;
 import java.util.List;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,34 +24,28 @@ public class ReservationController {
 	public DeviceService deviceService;
 
 	@Autowired
-	private ReservationRepository resDao;
-
-	@PostMapping("/reservation")
-	public HttpStatus addReservations(@Valid @RequestBody Reservation reservation) {
-
-		boolean res = reservationService.addReservation(reservation);
-		if (res) {
-
-			return HttpStatus.ACCEPTED;
-		}
-
-		return HttpStatus.BAD_REQUEST;
-	}
+	private ReservationRepository resRepo;
 
 	@PostMapping("/newreservation")
-	public boolean getEndTimebyDevice(@Valid @RequestBody Reservation reservation) {
-		List<Reservation> reservations = reservationService.getReservationByDevice(reservation.getDeviceId(),reservation.getStartTime(),reservation.getEndTime());
+	public boolean addReservation(@RequestBody Reservation reservation) {
+		System.out.println(reservation.getDeviceId());
+		
+
+		List<Reservation> reservations = resRepo.checkDeviceavailability(reservation.getDeviceId(),
+				reservation.getStartTime(), reservation.getEndTime());
+
 		if (reservations.isEmpty()) {
-			return false;
+
+			return reservationService.addReservation(reservation);
 		}
 
-		return reservationService.addReservation(reservation);
+		return false;
 
 	}
 
 	@GetMapping("/reservation/{id}")
 	public List<Reservation> getReservationbyUser(@PathVariable Integer id) {
-		List<Reservation> reservation = resDao.getReservationbyUser(id);
+		List<Reservation> reservation = resRepo.getReservationbyUser(id);
 
 		if (reservation.isEmpty())
 			throw new UserNotFoundException("id-" + id);
@@ -69,14 +60,6 @@ public class ReservationController {
 
 		ResponseEntity<List<Reservation>> response = new ResponseEntity<>(mobiles, HttpStatus.OK);
 		return response;
-
-	}
-
-	@GetMapping("/reservations/{id}/startDateTime/enDateTime")
-	public List<Reservation> getReservationbyDeviceId(@PathVariable Integer device_id, ZonedDateTime startDateTime,
-			ZonedDateTime enDateTime) {
-		List<Reservation> reservation = reservationService.getReservationByDevice(device_id, startDateTime, enDateTime);
-		return reservation;
 
 	}
 

@@ -4,7 +4,6 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
 import org.springframework.stereotype.Service;
 
 import com.virtusa.vtaf.Model.Reservation;
@@ -18,7 +17,7 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public boolean addReservation(Reservation reservation) {
 		reservationRepository.save(reservation);
-		return false;
+		return reservation != null;
 	}
 
 	@Override
@@ -27,11 +26,6 @@ public class ReservationServiceImpl implements ReservationService {
 
 	}
 
-	@Override
-	public Reservation getReservationById(Integer reservationId) {
-		return reservationRepository.getOne(reservationId);
-
-	}
 
 	@Override
 	public List<Reservation> getReservationByUser(int user_id) {
@@ -40,9 +34,10 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public List<Reservation> getReservationByDevice(int device_id, ZonedDateTime startDateTime,
+	public List<Reservation> checkDeviceavailability(int device_id, ZonedDateTime startDateTime,
 			ZonedDateTime enDateTime) {
-		return reservationRepository.getReservationByDevice(device_id, startDateTime, enDateTime);
+		return reservationRepository.checkDeviceavailability(device_id, startDateTime, enDateTime);
+
 	}
 
 }

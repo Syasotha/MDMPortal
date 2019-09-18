@@ -3,8 +3,6 @@ package com.virtusa.vtaf.Model;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,7 +11,7 @@ import javax.persistence.Table;
 public class Reservation {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	// @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Integer deviceId;
 	private Integer UserId;
@@ -22,6 +20,7 @@ public class Reservation {
 	private String reservationMadeFor;
 	private ZonedDateTime createTime;
 	private ZonedDateTime startTime;
+	private ZonedDateTime endTime;
 
 	public ZonedDateTime getStartTime() {
 		return startTime;
@@ -30,8 +29,6 @@ public class Reservation {
 	public void setStartTime(ZonedDateTime startTime) {
 		this.startTime = startTime;
 	}
-
-	private ZonedDateTime endTime;
 
 	public ZonedDateTime getCreateTime() {
 		return createTime;
