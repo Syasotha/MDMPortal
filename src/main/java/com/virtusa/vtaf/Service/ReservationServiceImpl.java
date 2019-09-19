@@ -11,6 +11,7 @@ import com.virtusa.vtaf.Repository.ReservationRepository;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
+
 	@Autowired
 	public ReservationRepository reservationRepository;
 
@@ -26,18 +27,21 @@ public class ReservationServiceImpl implements ReservationService {
 
 	}
 
-
 	@Override
 	public List<Reservation> getReservationByUser(int user_id) {
-		// TODO Auto-generated method stub
 		return reservationRepository.getReservationbyUser(user_id);
 	}
 
 	@Override
-	public List<Reservation> checkDeviceavailability(int device_id, ZonedDateTime startDateTime,
+	public List<Reservation> checkDeviceavailability(Integer deviceId, ZonedDateTime startDateTime,
 			ZonedDateTime enDateTime) {
-		return reservationRepository.checkDeviceavailability(device_id, startDateTime, enDateTime);
+		return reservationRepository.checkDeviceavailability(deviceId, startDateTime, enDateTime);
 
+	}
+
+	@Override
+	public List<Reservation> getReservationByDeviceId(int device_id) {
+		return reservationRepository.getReservationbyDeviceID(device_id);
 	}
 
 }

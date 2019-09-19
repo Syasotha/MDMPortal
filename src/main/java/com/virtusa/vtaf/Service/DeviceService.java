@@ -5,12 +5,9 @@ import java.util.List;
 import com.virtusa.vtaf.Model.Device;
 
 public interface DeviceService {
-	List<Device> listAll();
-	
-	public void save(Device device);
-	
-	public Device get(Integer id);
-	
-	public void delete(Integer id);
+
+	public List<Device> getAllDevice();
+
+	public boolean addDevice(Device device);
 
 }

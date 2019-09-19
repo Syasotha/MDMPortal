@@ -6,12 +6,16 @@ import java.util.List;
 import com.virtusa.vtaf.Model.Reservation;
 
 public interface ReservationService {
+
 	public List<Reservation> getAllReservation();
 
 	public boolean addReservation(Reservation reservation);
 
-	List<Reservation> getReservationByUser(int user_id);
+	public List<Reservation> getReservationByUser(int user_id);
 
-	List<Reservation> checkDeviceavailability(int device_id, ZonedDateTime startDateTime, ZonedDateTime enDateTime);
+	public List<Reservation> checkDeviceavailability(Integer deviceId, ZonedDateTime startDateTime,
+			ZonedDateTime enDateTime);
+
+	public List<Reservation> getReservationByDeviceId(int device_id);
 
 }

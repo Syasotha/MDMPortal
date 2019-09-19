@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.virtusa.vtaf.Model.Device;
 import com.virtusa.vtaf.Repository.DeviceRepository;
 
@@ -11,21 +12,16 @@ import com.virtusa.vtaf.Repository.DeviceRepository;
 public class DeviceServiceImpl implements DeviceService {
 
 	@Autowired
-	private DeviceRepository repo;
+	private DeviceRepository deviceRepository;
 
-	public List<Device> listAll() {
-		return repo.findAll();
+	@Override
+	public boolean addDevice(Device device) {
+		deviceRepository.save(device);
+		return device != null;
 	}
 
-	public void save(Device device) {
-		repo.save(device);
-	}
-
-	public Device get(Integer id) {
-		return repo.findById(id).get();
-	}
-
-	public void delete(Integer id) {
-		repo.deleteById(id);
+	@Override
+	public List<Device> getAllDevice() {
+		return deviceRepository.findAll();
 	}
 }
